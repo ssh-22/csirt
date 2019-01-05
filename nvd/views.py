@@ -2,17 +2,21 @@ import json
 import itertools
 
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 import os
-from nvd.models import Vulnerability
+from nvd.models import Vulnerability, Assessment
+from nvd.forms import AssessmentForm
+from django.db import IntegrityError, transaction
 
-file_path = os.path.join(settings.FILES_DIR, 'nvdcve-1.0-recent.json')
+from django.views.generic.list import ListView
+
+file_path = os.path.join(settings.FILES_DIR, 'nvdcve-1.0-2018.json')
 f = open(file_path, 'r')
 
 json_dict_first = json.load(f)
 
-
+ 
 def index(request):
     
     result_cve_id = []
@@ -58,19 +62,62 @@ def index(request):
 
 
     for j in range(len(result_vulnerability)):
-        data = Vulnerability()
-        data.cve_id = result_vulnerability[j][0]
-        data.base_score = result_vulnerability[j][1]
-        data.attack_vector = result_vulnerability[j][2]
-        data.cwe_type = result_vulnerability[j][3]
-        data.description = result_vulnerability[j][4]
-        data.published_date = result_vulnerability[j][5]
-        data.last_modified_date = result_vulnerability[j][6]
-        data.vendor_name = result_vulnerability[j][7]
-        data.product_name = result_vulnerability[j][8]
-        data.save()
+        while True:
+            try:
+                with transaction.atomic():
+                    data = Vulnerability()
+                    data.cve_id = result_vulnerability[j][0]
+                    data.base_score = result_vulnerability[j][1]
+                    data.attack_vector = result_vulnerability[j][2]
+                    data.cwe_type = result_vulnerability[j][3]
+                    data.description = result_vulnerability[j][4]
+                    data.published_date = result_vulnerability[j][5]
+                    data.last_modified_date = result_vulnerability[j][6]
+                    data.vendor_name = result_vulnerability[j][7]
+                    data.product_name = result_vulnerability[j][8]
+                    data.save()
+                    break
+            except IntegrityError:
+                break
 
     vulnerabilities = Vulnerability.objects.all().order_by('id')
     return render(request, 'nvd/index.html', {'vulnerabilities': vulnerabilities})
 
-    
+
+class AssessmentList(ListView):
+    context_object_name='assessments'
+    template_name='nvd/assessment_list.html'
+    paginate_by = 5
+
+
+    def get(self, request, *args, **kwargs):
+        vulnerability = get_object_or_404(Vulnerability, pk=kwargs['vulnerability_id'])  
+        assessments = vulnerability.assessments.all().order_by('id')   
+        self.object_list = assessments
+
+        context = self.get_context_data(object_list=self.object_list, vulnerability=vulnerability)    
+        return self.render_to_response(context)
+
+def assessment_edit(request, vulnerability_id, assessment_id=None):
+    vulnerability = get_object_or_404(Vulnerability, pk=vulnerability_id)  
+    if assessment_id: 
+        assessment = get_object_or_404(Assessment, pk=assessment_id)
+    else:              
+        assessment = Assessment()
+
+    if request.method == 'POST':
+        form = AssessmentForm(request.POST, instance=assessment)  
+        if form.is_valid():    
+            assessment = form.save(commit=False)
+            assessment.vulnerability = vulnerability
+            assessment.save()
+            return redirect('nvd:assessment_list', vulnerability_id=vulnerability_id)
+    else:
+        form = AssessmentForm(instance=assessment)  
+
+    return render(request, 'nvd/assessment_edit.html', dict(form=form, vulnerability_id=vulnerability_id, assessment_id=assessment_id))
+
+def assessment_del(request, vulnerability_id, assessment_id):
+    assessment = get_object_or_404(Assessment, pk=assessment_id)
+    assessment.delete()
+    return redirect('nvd:assessment_list', vulnerability_id=vulnerability_id)

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from nvd.models import Vulnerability
+from nvd.models import Vulnerability, Assessment
 
 
 class VulnerabilityAdmin(admin.ModelAdmin):
@@ -8,3 +8,11 @@ class VulnerabilityAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Vulnerability)
+
+
+class AssessmentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'vulnerable_products',)
+    list_display_links = ('id', 'vulnerable_products',)
+    raw_id_fields = ('vulnerability',)
+
+admin.site.register(Assessment)  
