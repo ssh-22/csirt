@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from nvd import views
 
 urlpatterns = [
     path('', include('nvd.urls')),

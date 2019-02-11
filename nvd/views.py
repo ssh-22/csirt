@@ -1,6 +1,6 @@
 import json
 import itertools
-
+from allauth.account import views
 from django.http.response import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
@@ -10,13 +10,16 @@ from nvd.forms import AssessmentForm
 from django.db import IntegrityError, transaction
 
 from django.views.generic.list import ListView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-file_path = os.path.join(settings.FILES_DIR, 'nvdcve-1.0-2018.json')
-f = open(file_path, 'r')
 
-json_dict_first = json.load(f)
+# file_path = os.path.join(settings.FILES_DIR, 'nvdcve-1.0-2018.json')
+# f = open(file_path, 'r')
 
- 
+# json_dict_first = json.load(f)
+
+@login_required
 def index(request):
     
     # result_cve_id = []
@@ -84,7 +87,7 @@ def index(request):
     return render(request, 'nvd/index.html', {'vulnerabilities': vulnerabilities})
 
 
-class AssessmentList(ListView):
+class AssessmentList(LoginRequiredMixin, ListView):
     context_object_name='assessments'
     template_name='nvd/assessment_list.html'
     paginate_by = 5
@@ -98,6 +101,7 @@ class AssessmentList(ListView):
         context = self.get_context_data(object_list=self.object_list, vulnerability=vulnerability)    
         return self.render_to_response(context)
 
+@login_required
 def assessment_edit(request, vulnerability_id, assessment_id=None):
     vulnerability = get_object_or_404(Vulnerability, pk=vulnerability_id)  
     if assessment_id: 
@@ -117,7 +121,9 @@ def assessment_edit(request, vulnerability_id, assessment_id=None):
 
     return render(request, 'nvd/assessment_edit.html', dict(form=form, vulnerability_id=vulnerability_id, assessment_id=assessment_id))
 
+@login_required
 def assessment_del(request, vulnerability_id, assessment_id):
     assessment = get_object_or_404(Assessment, pk=assessment_id)
     assessment.delete()
     return redirect('nvd:assessment_list', vulnerability_id=vulnerability_id)
+
