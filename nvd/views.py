@@ -19,8 +19,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 # json_dict_first = json.load(f)
 
-@login_required
-def index(request):
+
+class IndexList(LoginRequiredMixin, ListView):
     
     # result_cve_id = []
     # result_base_score = []
@@ -82,9 +82,19 @@ def index(request):
     #                 break
     #         except IntegrityError:
     #             break
+    model = Vulnerability
+    paginate_by = 10
+    template_name = 'nvd/index.html'
+    context_object_name = 'vulnerabilities'
 
-    vulnerabilities = Vulnerability.objects.all().order_by('id')
-    return render(request, 'nvd/index.html', {'vulnerabilities': vulnerabilities})
+    def get(self, request, *args, **kwargs):
+        vulnerabilities = Vulnerability.objects.all().order_by('id')
+        self.object_list = vulnerabilities
+
+        context = self.get_context_data(object_list=self.object_list)    
+        return self.render_to_response(context)
+    # vulnerabilities = Vulnerability.objects.all().order_by('id')
+    # return render(request, 'nvd/index.html', {'vulnerabilities': vulnerabilities})
 
 
 class AssessmentList(LoginRequiredMixin, ListView):
