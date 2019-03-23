@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'csirt.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nvd',
+        'NAME': 'test',
         'USER': 'root',
         'PASSWORD': 'Tanakataro13@',
         'HOST': 'localhost',

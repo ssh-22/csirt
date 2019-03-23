@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-# file_path = os.path.join(settings.FILES_DIR, 'nvdcve-1.0-2018.json')
+# file_path = os.path.join(settings.FILES_DIR, 'nvdcve-1.0-recent.json')
 # f = open(file_path, 'r')
 
 # json_dict_first = json.load(f)

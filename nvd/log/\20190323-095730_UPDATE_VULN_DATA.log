@@ -1,0 +1,16 @@
+03/23/2019 09:57:30 AM [正常]脆弱性情報収集処理を開始します。
+03/23/2019 09:57:30 AM Starting new HTTPS connection (1): nvd.nist.gov:443
+03/23/2019 09:57:31 AM https://nvd.nist.gov:443 "GET /feeds/json/cve/1.0/nvdcve-1.0-2019.json.gz HTTP/1.1" 200 1051883
+03/23/2019 09:57:35 AM [正常]脆弱性情報収集処理が正常終了しました。
+03/23/2019 09:57:35 AM [正常]脆弱性情報nvdcve-1.0-2019.json保存処理を開始します。
+03/23/2019 09:57:37 AM [正常]脆弱性情報nvdcve-1.0-2019.json保存処理が正常終了しました。
+03/23/2019 09:57:37 AM Starting new HTTPS connection (1): nvd.nist.gov:443
+03/23/2019 09:57:38 AM https://nvd.nist.gov:443 "GET /feeds/json/cve/1.0/nvdcve-1.0-recent.json.gz HTTP/1.1" 200 105807
+03/23/2019 09:57:38 AM [正常]脆弱性情報収集処理が正常終了しました。
+03/23/2019 09:57:38 AM [正常]脆弱性情報nvdcve-1.0-recent.json保存処理を開始します。
+03/23/2019 09:57:38 AM [正常]脆弱性情報nvdcve-1.0-recent.json保存処理が正常終了しました。
+03/23/2019 09:57:38 AM Starting new HTTPS connection (1): nvd.nist.gov:443
+03/23/2019 09:57:39 AM https://nvd.nist.gov:443 "GET /feeds/json/cve/1.0/nvdcve-1.0-modified.json.gz HTTP/1.1" 200 879829
+03/23/2019 09:57:42 AM [正常]脆弱性情報収集処理が正常終了しました。
+03/23/2019 09:57:42 AM [正常]脆弱性情報nvdcve-1.0-modified.json保存処理を開始します。
+03/23/2019 09:57:43 AM [正常]脆弱性情報nvdcve-1.0-modified.json保存処理が正常終了しました。

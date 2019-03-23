@@ -1,0 +1,3 @@
+03/23/2019 09:21:01 AM [正常]脆弱性情報収集処理を開始します。
+03/23/2019 09:21:01 AM Starting new HTTPS connection (1): nvd.nist.gov:443
+03/23/2019 09:21:02 AM https://nvd.nist.gov:443 "GET /feeds/json/cve/1.0/nvdcve-1.0-2019.json.gz HTTP/1.1" 200 1051883
