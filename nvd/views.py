@@ -83,7 +83,7 @@ class IndexList(LoginRequiredMixin, ListView):
     #         except IntegrityError:
     #             break
     model = Vulnerability
-    paginate_by = 10
+    # paginate_by = 10
     template_name = 'nvd/index.html'
     context_object_name = 'vulnerabilities'
 
