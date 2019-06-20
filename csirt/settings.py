@@ -85,20 +85,20 @@ WSGI_APPLICATION = 'csirt.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'test',
-#         'USER': 'root',
-#         'PASSWORD': 'Tanakataro13@',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#         'ATOMIC_REQUESTS': True,
-#         'OPTIONS': {
-#             'sql_mode': 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO',
-#         },
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test',
+        'USER': 'root',
+        'PASSWORD': 'Tanakataro13@',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'ATOMIC_REQUESTS': True,
+        'OPTIONS': {
+            'sql_mode': 'TRADITIONAL,NO_AUTO_VALUE_ON_ZERO',
+        },
+    }
+}
 
 
 # Password validation
