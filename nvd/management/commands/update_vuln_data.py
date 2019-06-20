@@ -7,7 +7,7 @@ from requests import get
 
 """ ログ取得設定 """
 #初期パラメータ設定
-logdir = r"/Users/masuda/boring/project/csirt/nvd/log/"
+logdir = r"/app/nvd/log"
 #現在時刻の取得
 date_name = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 #ファイル名の生成
