@@ -127,7 +127,7 @@ tornado==6.0.2
 traitlets==4.3.2
 tweepy==3.7.0
 typed-ast==1.3.2
-urllib3==1.24.2
+urllib3==1.26.5
 virtualenv==16.4.3
 wcwidth==0.1.7
 webencodings==0.5.1
